@@ -1,0 +1,7 @@
+{
+    "env":{
+        "API_KEY": "622aac0b-037f-4736-8d79-565c90f9bc33:42QlkXGdNw5/KjWBA+1UxLIGlPXNkf6NMUHdllNJZzQ=",
+        "INSTANCELOCATOR": "v1:us1:6e77d4b9-751c-4c03-ada2-b57f034c2ab2",
+        "MONGO_ATLAS_PW": "chat-app-database"
+    }
+}
