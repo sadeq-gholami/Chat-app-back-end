@@ -45,7 +45,7 @@ router.get('/', (req, res, next)=>{
                   imgUrl: doc.imgUrl,
                   request:{
                       type: 'GET',
-                      url: 'http://localhost:1337/pictures/' + doc._id 
+                      url: 'https://chat-application-api.herokuapp.com/pictures/' + doc._id 
                   }
               }
           })
@@ -76,7 +76,7 @@ router.post("/", upload.single('imgUrl'), (req, res, next) => {
               _id: result._id,
               request: {
                   type: 'GET',
-                  url: "http://localhost:3000/products/" + result._id
+                  url: "https://chat-application-api.herokuapp.com//products/" + result._id
               }
           }
         });
@@ -100,7 +100,7 @@ router.get('/:pictureId', (req, res, next)=>{
                 product: doc,
                 request:{
                     type: 'GET',
-                    url: 'http://localhost:1337/products/'
+                    url: 'https://chat-application-api.herokuapp.com/products/'
                 }
             });
         } else{
@@ -115,13 +115,14 @@ router.get('/:pictureId', (req, res, next)=>{
 
 router.delete('/:pictureId', (req, res, next)=>{
     const id = req.params.pictureId;
-    Product.remove({_id: id})
+    console.log(id);
+    Picture.remove({_id: id})
     .exec()
     .then(result=>{
         res.status(200).json(result);
     })
     .catch(err => {
-        console.log(err);
+        console.log("something went wrong");
         res.status(500).json({error: err});
     });
 });
