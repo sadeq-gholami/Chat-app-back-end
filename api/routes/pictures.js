@@ -74,6 +74,7 @@ router.post("/", upload.single('imgUrl'), (req, res, next) => {
           createdPicture: {
               name: result.name,
               _id: result._id,
+              imgUrl:result.imgUrl,
               request: {
                   type: 'GET',
                   url: "https://chat-application-api.herokuapp.com//products/" + result._id
