@@ -77,7 +77,7 @@ router.post("/", upload.single('imgUrl'), (req, res, next) => {
               imgUrl:result.imgUrl,
               request: {
                   type: 'GET',
-                  url: "https://chat-application-api.herokuapp.com//products/" + result._id
+                  url: "https://chat-application-api.herokuapp.com/pictures/" + result._id
               }
           }
         });
