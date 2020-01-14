@@ -26,7 +26,7 @@ router.get('/users', (req, res, next)=>{
                   avatarURL:doc.avatarURL,
                   request:{
                       type: 'GET',
-                      url: 'http://localhost:3001/chatkit/users/' + doc._id 
+                      url: 'https://chat-application-api.herokuapp.com/chatkit/users/' + doc._id 
                   }
               }
           })
@@ -65,14 +65,14 @@ router.post("/users", async (req, res, next) => {
         avatarURL:savedUser.avatarURL
       })
       .then(() => {
-        res.status(201).json(savedUser)
+        res.sendStatus(201)
       })
       .catch(error => {
         if (error.error === 'services/chatkit/user_already_exists') {
           res.sendStatus(200)
         } else {
           console.log(error);
-          res.status(error.status).json(error)
+          res.status(error.status).json(error);
         }
       }); 
 });
@@ -87,7 +87,7 @@ router.get('/users/:userId', (req, res, next)=>{
               product: doc,
               request:{
                   type: 'GET',
-                  url: 'https://chat-application-api.herokuapp.com/users/'
+                  url: 'https://chat-application-api.herokuapp.com/chatkit/users/'
               }
           });
       } else{
