@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
-
+const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+  cloud_name: 'royal-chat',
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_SECRET
+})
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
       cb(null, './uploads/');
@@ -44,7 +49,7 @@ router.get('/', (req, res, next)=>{
                   _id: doc._id,
                   imgUrl: doc.imgUrl,
                   request:{
-                      type: 'GET',
+                      type: 'DELETE',
                       url: 'https://chat-application-api.herokuapp.com/pictures/' + doc._id 
                   }
               }
@@ -59,28 +64,20 @@ router.get('/', (req, res, next)=>{
 });
 
 router.post("/", upload.single('imgUrl'), (req, res, next) => {
-    console.log(req.file);
-    const picture = new Picture({
-      _id: new mongoose.Types.ObjectId(),
-      name: req.body.name,
-      imgUrl: req.file.path 
-    });
-    picture
-      .save()
-      .then(result => {
-        console.log(result);
-        res.status(201).json({
-          message: "Created product successfully",
-          createdPicture: {
-              name: result.name,
-              _id: result._id,
-              imgUrl:result.imgUrl,
-              request: {
-                  type: 'GET',
-                  url: "https://chat-application-api.herokuapp.com/pictures/" + result._id
-              }
-          }
-        });
+  const path = req.file.path
+  const uniqueFilename = new Date().toISOString();
+
+  cloudinary.uploader.upload(
+    path,
+    { public_id: `blog/${uniqueFilename}`, tags: `blog` }, // directory and tags are optional
+    function(err, image) {
+      if (err) return res.send(err)
+      console.log('file uploaded to Cloudinary')
+      // remove file from server
+      const fs = require('fs')
+      fs.unlinkSync(path)
+      // return image details
+      res.json(image)
       })
       .catch(err => {
         console.log(err);

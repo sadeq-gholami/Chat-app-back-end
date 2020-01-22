@@ -3,7 +3,6 @@ const router = express.Router();
 const Chatkit = require('@pusher/chatkit-server');
 const mongoose = require('mongoose');
 const bcrypt =require('bcrypt');
-
 const User = require('../models/user');
 
 const chatkit = new Chatkit.default({
