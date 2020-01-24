@@ -116,10 +116,11 @@ router.delete('/users/:userId', (req, res, next)=>{
 
 router.post('/users/login', async(req,res, next)=>{
   console.log(req.headers)
-   const user = await User.find({username:req.headers.username})
-    .select('username  _id password')
+   const user = await User.find({userId:req.headers.userid})
+    .select(' username userId  _id password')
     .exec()
     .then(docs =>{
+      console.log(docs[0])
         return docs;
     })
     .catch(err =>{
@@ -127,7 +128,7 @@ router.post('/users/login', async(req,res, next)=>{
       res.status(500).json("can not find user");
     });
     if(user.length < 1){
-      res.status(400).json("there is no user with the given usernam");
+      res.status(400).json("there is no user with the given username");
     }
     try{
       if (await bcrypt.compare(req.headers.password, user[0].password)){
