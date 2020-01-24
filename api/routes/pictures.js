@@ -66,7 +66,6 @@ router.get('/', (req, res, next)=>{
 router.post("/", upload.single('imgUrl'), (req, res, next) => {
   const path = req.file.path
   const uniqueFilename = new Date().toISOString();
-
   cloudinary.uploader.upload(
     path,
     { public_id: `blog/${uniqueFilename}`, tags: `blog` }, // directory and tags are optional

@@ -12,7 +12,7 @@ const chatkit = new Chatkit.default({
 
 router.get('/users', (req, res, next)=>{
   User.find()
-  .select('username  _id password avatarURL')
+  .select('username  _id userId  password avatarURL')
   .exec()
   .then(docs =>{
       const response = {
@@ -20,6 +20,7 @@ router.get('/users', (req, res, next)=>{
           users: docs.map(doc => {
               return{
                   username: doc.username,
+                  userId:doc.userId,
                   _id: doc._id,
                   password:doc.password,
                   avatarURL:doc.avatarURL,
@@ -43,6 +44,7 @@ router.post("/users", async (req, res, next) => {
     console.log(hashedPassword);
     const user = new User({
       _id: new mongoose.Types.ObjectId(),
+      userId: req.body.userId,
       username: req.body.username,
       password: hashedPassword,
       avatarURL:req.body.avatarURL
@@ -59,7 +61,7 @@ router.post("/users", async (req, res, next) => {
       });
 
       chatkit.createUser({
-        id: savedUser.username,
+        id: savedUser.userId,
         name: savedUser.username,
         avatarURL:savedUser.avatarURL
       })
