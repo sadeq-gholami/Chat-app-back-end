@@ -47,7 +47,7 @@ router.post("/users", async (req, res, next) => {
       userId: req.body.userId,
       username: req.body.username,
       password: hashedPassword,
-      avatarURL:req.body.avatarURL
+      avatarURL:req.body.avatarURL||"https://res.cloudinary.com/royal-chat/image/upload/v1579879397/blog/2020-01-24T15:23:17.248Z.png"
     });
     const savedUser = await user.save()
       .then(result => {
